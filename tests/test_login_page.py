@@ -1,3 +1,4 @@
+import allure
 import pytest
 from playwright.sync_api import Page
 
@@ -5,8 +6,10 @@ from pages.login_page import LoginPage
 from test_data import LOGIN, PASSWORD
 
 
+@allure.suite('LoginPage')
 class TestLoginPage:
 
+    @allure.title('Проверка ввода НЕВЕРНЫХ учетных данных (логина и пароля)')
     @pytest.mark.parametrize('login, password', [
         (LOGIN, '3'),
         ('wrong_login', PASSWORD),
@@ -29,6 +32,7 @@ class TestLoginPage:
         # Проверка появления диалогового окна с сообщением о неверном логине или пароле
         login_page.check_presence_warning()
 
+    @allure.title('Проверка ввода верных учетных данных (логина и пароля)')
     def test_login_page_right_credentials(self, page: Page):
         login_page = LoginPage(page)
         main_page = login_page.main_page
